@@ -51,7 +51,7 @@ jobs:
       - id: 'upload-static-files'
         uses: 'google-github-actions/upload-cloud-storage@v1'
         with:
-          path: 'code/' # BUILD/FILES DIRECTORY
+          path: './code/' # BUILD/FILES DIRECTORY
           destination: 'static_site_host_bucket' #  BUCKET NAME
           parent: false
 
