@@ -10,6 +10,11 @@ permissions:
   contents: read
   id-token: write
 
+variables:
+  PROJECT_ID: 'static-site-407815'
+  POOL: 'projects/743388569402/locations/global/workloadIdentityPools/github'
+  PROVIDER: 'projects/743388569402/locations/global/workloadIdentityPools/github/providers/my-repo'
+
 jobs:
   deploy:
     runs-on: ubuntu-22.04
@@ -33,14 +38,20 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/143616246873/locations/global/workloadIdentityPools/<YOUR POOL HERE>/providers/<YOUR PROVIDER HERE>'
-          service_account: 'github-actions-service-account@<YOUR PROJECT ID>.iam.gserviceaccount.com' # UPDATE THIS TO YOUR SERVICE ACCOUNT
+          workload_identity_provider: 'projects/143616246873/locations/global/workloadIdentityPools/${POOL}/providers/${PROVIDER}'
+          service_account: 'github-actions-service-account@${PROJECT_ID}.iam.gserviceaccount.com' # UPDATE THIS TO YOUR SERVICE ACCOUNT
+        run: |
+          gcloud secrets add-iam-policy-binding "my-secret" \
+            --project="${PROJECT_ID}" \
+            --role="roles/secretmanager.secretAccessor" \
+            --member="principalSet://iam.googleapis.com/${POOL}/attribute.repository/google-cloud-storage-site-meryemmarasli"
+
 
       # upload files to GCS
       - id: 'upload-static-files'
         uses: 'google-github-actions/upload-cloud-storage@v1'
         with:
-          path: 'public' # UPDATE THIS TO YOUR BUILD/FILES DIRECTORY
-          destination: 'storage-bucket-name' # UPDATE THIS TO YOUR BUCKET NAME
+          path: 'code/' # BUILD/FILES DIRECTORY
+          destination: 'static_site_host_bucket' #  BUCKET NAME
           parent: false
 
