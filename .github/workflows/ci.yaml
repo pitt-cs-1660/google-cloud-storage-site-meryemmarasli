@@ -1,5 +1,10 @@
 name: Static Site
 
+variables:
+  PROJECT_ID: 'static-site-407815'
+  POOL: 'projects/743388569402/locations/global/workloadIdentityPools/github'
+  PROVIDER: 'projects/743388569402/locations/global/workloadIdentityPools/github/providers/my-repo'
+
 on:
   push:
     branches:
@@ -10,10 +15,7 @@ permissions:
   contents: read
   id-token: write
 
-variables:
-  PROJECT_ID: 'static-site-407815'
-  POOL: 'projects/743388569402/locations/global/workloadIdentityPools/github'
-  PROVIDER: 'projects/743388569402/locations/global/workloadIdentityPools/github/providers/my-repo'
+
 
 jobs:
   deploy:
