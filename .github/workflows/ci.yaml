@@ -1,10 +1,5 @@
 name: Static Site
 
-variables:
-  PROJECT_ID: 'static-site-407815'
-  POOL: 'projects/743388569402/locations/global/workloadIdentityPools/github'
-  PROVIDER: 'projects/743388569402/locations/global/workloadIdentityPools/github/providers/my-repo'
-
 on:
   push:
     branches:
@@ -40,15 +35,15 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/143616246873/locations/global/workloadIdentityPools/${POOL}/providers/${PROVIDER}'
-          service_account: 'github-actions-service-account@${PROJECT_ID}.iam.gserviceaccount.com' # UPDATE THIS TO YOUR SERVICE ACCOUNT
+          workload_identity_provider: 'projects/143616246873/locations/global/workloadIdentityPools/projects/743388569402/locations/global/workloadIdentityPools/github/providers/projects/743388569402/locations/global/workloadIdentityPools/github/providers/my-repo'
+          service_account: 'github-actions-service-account@static-site-407815.iam.gserviceaccount.com' # UPDATE THIS TO YOUR SERVICE ACCOUNT
       
 
       - id: 'policy-binding'
         name: 'Policy Binding'
         run: |
           gcloud secrets add-iam-policy-binding "my-secret" \
-            --project="${PROJECT_ID}" \
+            --project="static-site-407815" \
             --role="roles/secretmanager.secretAccessor" \
             --member="principalSet://iam.googleapis.com/${POOL}/attribute.repository/google-cloud-storage-site-meryemmarasli"
 
