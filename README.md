@@ -4,6 +4,7 @@
 ## Project Details
 -  Bucket Name: static_site_host_bucket
 -  to access site:  https://storage.googleapis.com/static_site_host_bucket/code/index.html
+-  Load Balancer IP: 34.98.102.162:443
 
 
 ## Project Requirements
