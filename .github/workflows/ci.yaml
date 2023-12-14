@@ -46,4 +46,5 @@ jobs:
           path: './code/' # BUILD/FILES DIRECTORY
           destination: 'static_site_host_bucket' #  BUCKET NAME
           parent: false
+          process_gcloudignore: false
 
